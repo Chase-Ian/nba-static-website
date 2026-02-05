@@ -98,6 +98,12 @@ h4 { margin: 0;  font-weight: bold;  font-size: 1.18em; }
 	<TITLE>Local index - HTTrack</TITLE>
 </HEAD>
 <BODY>
+	<section style="background-color: #051c2d; color: white; padding: 40px; text-align: center; border-top: 4px solid #0078d4;">
+    <h2 style="font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 2.5rem; margin-bottom: 20px;">🔮 THE PLAYOFF ORACLE</h2>
+    <div id="oracle-output" style="font-family: 'Roboto Condensed', sans-serif; font-size: 1.2rem; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+        <p>Analyzing team data...</p>
+    </div>
+</section>	
 <H1 ALIGN=Center>Index of locally available sites:</H1>
 	<TABLE BORDER="0" WIDTH="100%" CELLSPACING="1" CELLPADDING="0">
 		<TR>
@@ -117,7 +123,7 @@ h4 { margin: 0;  font-weight: bold;  font-size: 1.18em; }
 	</H6>
 	<!-- Mirror and index made by HTTrack Website Copier/3.49-2 [XR&CO'2014] -->
 	<!-- Thanks for using HTTrack Website Copier! -->
-	<meta HTTP-EQUIV="Refresh" CONTENT="0; URL=www.nba.com/09ith05u.html">
+	
 
 
 <!-- ==================== Start epilogue ==================== -->
@@ -138,7 +144,26 @@ h4 { margin: 0;  font-weight: bold;  font-size: 1.18em; }
 </table>
 
 </body>
-
+<script>
+	      async function loadOracle() {
+    try {
+        const response = await fetch('predictions.json');
+        const data = await response.json();
+        const container = document.getElementById('oracle-output');
+        
+        container.innerHTML = data.map(item => `
+            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 5px; width: 80%; max-width: 500px; display: flex; justify-content: space-between;">
+                <span><strong>${item.team}</strong></span>
+                <span>${(item.probability * 100).toFixed(0)}% Probability</span>
+                <span style="color: #0078d4;">[${item.status}]</span>
+            </div>
+        `).join('');
+    } catch (err) {
+        console.error("Oracle fetch failed:", err);
+    }
+}
+loadOracle();
+	</script>
 </html>
 
 
